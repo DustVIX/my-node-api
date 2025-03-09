@@ -19,9 +19,9 @@ const books = [
     }
 ];
 
-reouter.get("/home", (req, res) => {
-    res.sendFile(path.join(__dirname, "../index.html"));
-});
+// reouter.get("/home", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../index.html"));
+// });
 
 reouter.get("/", (req,res)=>{
     res.json(books)

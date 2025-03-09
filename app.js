@@ -1,6 +1,6 @@
 const express = require("express");
 const bookspath = require("./routes/books")
-
+const path = require('path');
 const app = express();
 
 app.use(express.json());
@@ -10,13 +10,12 @@ app.use(express.json());
 // });
 
 
-reouter.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
-
-
 app.use("/api/books",bookspath)
 
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "/index.html"));
+});
 
 
 
