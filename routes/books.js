@@ -1,6 +1,6 @@
 const express = require("express");
 const reouter = express.Router();
-// const path = require("path");
+const path = require("path");
 const Joi = require("joi");
 
 
@@ -22,10 +22,9 @@ const books = [
     }
 ];
 
-// reouter.get("/", (req, res) => {
-//     res.sendFile(path.join(__dirname, "/index.html"));
-// });
-
+reouter.get("/home", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
+});
 
 reouter.get("/", (req,res)=>{
     res.json(books)
