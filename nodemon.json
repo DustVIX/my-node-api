@@ -1,0 +1,8 @@
+{
+    "restartable": "rs",
+    "ignore": ["node_modules"],
+    "execMap": {
+      "js": "npx kill-port 8080 && cls && node"
+    }
+  }
+  
