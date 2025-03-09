@@ -13,7 +13,7 @@ app.use("/api/books",bookspath)
 
 
 // Running the server
-const port = 8080;
+const port = 80;
 app.listen(port, () => {
     console.log(`the app is listening on port ${port}`);
 });

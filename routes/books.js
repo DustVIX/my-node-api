@@ -4,9 +4,6 @@ const path = require("path");
 const Joi = require("joi");
 
 
-
-
-
 const books = [
     {
         id: 1,
