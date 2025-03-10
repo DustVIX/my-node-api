@@ -1,6 +1,5 @@
 const express = require("express");
-const reouter = express.Router();
-const path = require("path");
+const router = express.Router();
 const Joi = require("joi");
 
 
@@ -19,15 +18,12 @@ const books = [
     }
 ];
 
-// reouter.get("/home", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../index.html"));
-// });
 
-reouter.get("/", (req,res)=>{
+router.get("/", (req,res)=>{
     res.json(books)
 })
 
-reouter.get("/:id", (req,res)=>{
+router.get("/:id", (req,res)=>{
     const book = books.find(b => b.id === parseInt(req.params.id));
     if(book){
         res.json(book);
@@ -38,15 +34,10 @@ reouter.get("/:id", (req,res)=>{
 
 
 
-reouter.post("/", (req,res)=> {
+router.post("/", (req,res)=> {
 
-    const schema = Joi.object({
-        title: Joi.string().trim().min(3).max(200).required(),
-        author: Joi.string().trim().min(3).max(500).required(),
-        prisce: Joi.number().min(0).required(),
-    })
+    const {error} = vaildateCreateBook(req.body)
 
-    const { error } = schema.validate(req.body)
     if (error){
         return res.status(400).json( {massage: error.details[0].message});
     }
@@ -62,4 +53,61 @@ reouter.post("/", (req,res)=> {
 });
 
 
-module.exports = reouter
+router.put("/:id", (req,res) =>{
+    const {error} = vaildateUpdateBook(req.body)
+
+    if (error){
+        return res.status(400).json( {massage: error.details[0].message});
+    }
+
+    const book = books.find(b => b.id === parseInt(req.params.id))
+    if(book){
+        res.status(200).json({massage: "book has been updated"})
+    }else(
+        res.status(404).json({massage: "book not found"})
+    )
+
+
+});
+
+
+router.delete("/:id", (req,res) =>{
+
+    const book = books.find(b => b.id === parseInt(req.params.id))
+    if(book){
+        res.status(200).json({massage: "book has been deleted"})
+    }else(
+        res.status(404).json({massage: "book not found"})
+    )
+
+
+});
+
+
+
+
+
+
+function vaildateCreateBook(obj) {
+    const schema = Joi.object({
+        title: Joi.string().trim().min(3).max(200).required(),
+        author: Joi.string().trim().min(3).max(500).required(),
+        prisce: Joi.number().min(0).required(),
+    })
+
+    return schema.validate(obj)
+};
+
+
+function vaildateUpdateBook(obj) {
+    const schema = Joi.object({
+        title: Joi.string().trim().min(3).max(200),
+        author: Joi.string().trim().min(3).max(500),
+        prisce: Joi.number().min(0),
+    })
+
+    return schema.validate(obj)
+};
+
+
+module.exports = router 
